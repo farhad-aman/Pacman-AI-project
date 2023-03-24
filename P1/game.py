@@ -347,7 +347,7 @@ class Actions:
         x_int, y_int = int(x + 0.5), int(y + 0.5)
 
         # In between grid points, all agents must continue straight
-        if (abs(x - x_int) + abs(y - y_int) > Actions.TOLERANCE):
+        if abs(x - x_int) + abs(y - y_int) > Actions.TOLERANCE:
             return [config.getDirection()]
 
         for dir, vec in Actions._directionsAsList:
