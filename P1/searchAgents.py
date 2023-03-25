@@ -261,13 +261,13 @@ class StayWestSearchAgent(SearchAgent):
 def manhattanHeuristic(position, problem, info={}):
     "The Manhattan distance heuristic for a PositionSearchProblem"
 
-    "*** YOUR CODE HERE ***"
+    return abs(position[0] - problem.goal[0]) + abs(position[1] - problem.goal[1])
 
 
 def euclideanHeuristic(position, problem, info={}):
     "The Euclidean distance heuristic for a PositionSearchProblem"
 
-    "*** YOUR CODE HERE ***"
+    return ((position[0] - problem.goal[0]) ** 2 + (position[1] - problem.goal[1]) ** 2) ** .5
 
 
 #####################################################
