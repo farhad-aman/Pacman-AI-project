@@ -88,8 +88,21 @@ def depthFirstSearch(problem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    fringe = util.Stack()
+    visited = []
+    actions = []
+
+    fringe.push((problem.getStartState(), actions))
+    while not fringe.isEmpty():
+        state, actions = fringe.pop()  # pop the last element because fringe in DFS is LIFO
+        if problem.isGoalState(state):
+            return actions
+        if state not in visited:
+            visited.append(state)
+            for successor, action, cost in problem.getSuccessors(state):
+                fringe.push((successor, actions + [action]))
+    return []
 
 
 def breadthFirstSearch(problem):

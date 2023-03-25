@@ -163,7 +163,6 @@ class Queue:
     def push(self, item):
         "Enqueue the 'item' into the queue"
 
-        "*** YOUR MAY CODE HERE ***"
         self.list.append(item)
 
     def pop(self):
