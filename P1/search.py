@@ -105,6 +105,32 @@ def depthFirstSearch(problem):
     return []
 
 
+def depthLimitedSearch(problem, param):
+    fringe = util.Stack()
+    visited = []
+    actions = []
+
+    fringe.push((problem.getStartState(), actions))
+    while not fringe.isEmpty():
+        state, actions = fringe.pop()  # pop the last element because fringe in DFS is LIFO
+        if problem.isGoalState(state):
+            return actions
+        if state not in visited:
+            visited.append(state)
+            if len(actions) < param:
+                for successor, action, cost in problem.getSuccessors(state):
+                    fringe.push((successor, actions + [action]))
+    return []
+
+
+def iterativeDeepeningSearch(problem, param):
+    for i in range(1, param + 1):
+        result = depthLimitedSearch(problem, i)
+        if result:
+            return result
+    return []
+
+
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
 
