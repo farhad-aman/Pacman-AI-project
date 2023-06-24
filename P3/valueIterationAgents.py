@@ -31,6 +31,7 @@ import mdp, util
 from learningAgents import ValueEstimationAgent
 import collections
 
+
 class ValueIterationAgent(ValueEstimationAgent):
     """
         * Please read learningAgents.py before reading this.*
@@ -40,7 +41,8 @@ class ValueIterationAgent(ValueEstimationAgent):
         for a given number of iterations using the supplied
         discount factor.
     """
-    def __init__(self, mdp, discount = 0.9, iterations = 100):
+
+    def __init__(self, mdp, discount=0.9, iterations=100):
         """
           Your value iteration agent should take an mdp on
           construction, run the indicated number of iterations
@@ -56,7 +58,7 @@ class ValueIterationAgent(ValueEstimationAgent):
         self.mdp = mdp
         self.discount = discount
         self.iterations = iterations
-        self.values = util.Counter() # A Counter is a dict with default 0
+        self.values = util.Counter()  # A Counter is a dict with default 0
         self.runValueIteration()
 
     def runValueIteration(self):
@@ -74,8 +76,8 @@ class ValueIterationAgent(ValueEstimationAgent):
                     sumvalue = 0.0
                     for stateProb in transitionStatesProbs:
                         sumvalue += stateProb[1] * (
-                                    self.mdp.getReward(state, action, stateProb[0]) + self.discount * self.values[
-                                stateProb[0]])
+                                self.mdp.getReward(state, action, stateProb[0]) + self.discount * self.values[
+                            stateProb[0]])
                     maxvalue = max(maxvalue, sumvalue)
                 if maxvalue != -999999:
                     tempvalues[state] = maxvalue
@@ -83,13 +85,11 @@ class ValueIterationAgent(ValueEstimationAgent):
             for state in states:
                 self.values[state] = tempvalues[state]
 
-
     def getValue(self, state):
         """
           Return the value of the state (computed in __init__).
         """
         return self.values[state]
-
 
     def computeQValueFromValues(self, state, action):
         """
@@ -101,7 +101,7 @@ class ValueIterationAgent(ValueEstimationAgent):
         value = 0.0
         for stateProb in transitionStatesProbs:
             value += stateProb[1] * (
-                        self.mdp.getReward(state, action, stateProb[0]) + self.discount * self.values[stateProb[0]])
+                    self.mdp.getReward(state, action, stateProb[0]) + self.discount * self.values[stateProb[0]])
         return value
         # util.raiseNotDefined()
 
@@ -136,6 +136,7 @@ class ValueIterationAgent(ValueEstimationAgent):
     def getQValue(self, state, action):
         return self.computeQValueFromValues(state, action)
 
+
 class AsynchronousValueIterationAgent(ValueIterationAgent):
     """
         * Please read learningAgents.py before reading this.*
@@ -145,7 +146,8 @@ class AsynchronousValueIterationAgent(ValueIterationAgent):
         for a given number of iterations using the supplied
         discount factor.
     """
-    def __init__(self, mdp, discount = 0.9, iterations = 1000):
+
+    def __init__(self, mdp, discount=0.9, iterations=1000):
         """
           Your cyclic value iteration agent should take an mdp on
           construction, run the indicated number of iterations,
@@ -175,6 +177,7 @@ class AsynchronousValueIterationAgent(ValueIterationAgent):
                 one_state[a] = self.computeQValueFromValues(s, a)
             self.values[s] = max(one_state.values())
 
+
 class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
     """
         * Please read learningAgents.py before reading this.*
@@ -183,7 +186,8 @@ class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
         (see mdp.py) on initialization and runs prioritized sweeping value iteration
         for a given number of iterations using the supplied parameters.
     """
-    def __init__(self, mdp, discount = 0.9, iterations = 100, theta = 1e-5):
+
+    def __init__(self, mdp, discount=0.9, iterations=100, theta=1e-5):
         """
           Your prioritized sweeping value iteration agent should take an mdp on
           construction, run the indicated number of iterations,
@@ -228,4 +232,3 @@ class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
                 diff = abs(self.values[p] - max(q_values.values()))
                 if diff > self.theta:
                     pq.update(p, -diff)
-
