@@ -6,7 +6,7 @@
 # attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
 # 
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
+# The core projects and auto-graders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
@@ -74,8 +74,12 @@ class DiscreteDistribution(dict):
         >>> empty
         {}
         """
-        "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        total = self.total()
+        if total == 0:
+            return
+        else:
+            for key in self.keys():
+                self[key] /= total
 
     def sample(self):
         """
@@ -168,8 +172,15 @@ class InferenceModule:
         """
         Return the probability P(noisyDistance | pacmanPosition, ghostPosition).
         """
-        "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        if ghostPosition == jailPosition:
+            if noisyDistance is None:
+                return 1
+            else:
+                return 0
+        if noisyDistance is None:
+            return 0
+        return busters.getObservationProbability(noisyDistance, manhattanDistance(pacmanPosition, ghostPosition))
+
 
     def setGhostPosition(self, gameState, ghostPosition, index):
         """
@@ -276,8 +287,9 @@ class ExactInference(InferenceModule):
         current position. However, this is not a problem, as Pacman's current
         position is known.
         """
-        "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        for ghost_position in self.allPositions:
+            self.beliefs[ghost_position] *= self.getObservationProb(
+                observation, gameState.getPacmanPosition(), ghost_position, self.getJailPosition())
 
         self.beliefs.normalize()
 
